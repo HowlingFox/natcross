@@ -1,0 +1,46 @@
+package cn.howlingox.natcross.serverside.listen.recv;
+
+import java.util.Objects;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import cn.howlingox.natcross.channel.SocketChannel;
+import cn.howlingox.natcross.model.InteractiveModel;
+import cn.howlingox.natcross.model.enumeration.InteractiveTypeEnum;
+
+/**
+ * <p>
+ * 统一回复 处理器
+ * </p>
+ *
+ * @author howlingfox
+ * @since 2023-04-15 13:02:09
+ */
+@Slf4j
+public class CommonReplyHandler implements IRecvHandler<InteractiveModel, InteractiveModel> {
+
+	public static final CommonReplyHandler INSTANCE = new CommonReplyHandler();
+
+	@Getter
+	@Setter
+	private IRecvHandler<InteractiveModel, InteractiveModel> handler;
+
+	@Override
+	public boolean proc(InteractiveModel model,
+			SocketChannel<? extends InteractiveModel, ? super InteractiveModel> channel) throws Exception {
+		InteractiveTypeEnum interactiveTypeEnum = InteractiveTypeEnum.getEnumByName(model.getInteractiveType());
+		if (!InteractiveTypeEnum.COMMON_REPLY.equals(interactiveTypeEnum)) {
+			return false;
+		}
+
+		IRecvHandler<InteractiveModel, InteractiveModel> handler;
+		if (Objects.isNull(handler = this.handler)) {
+			log.info("common reply: {}", model);
+			return true;
+		}
+
+		return handler.proc(model, channel);
+	}
+
+}
