@@ -33,11 +33,11 @@ public class ClientApp {
 	 */
 	public static void secretHttpRoute() throws Exception {
 		HttpRoute[] routes = new HttpRoute[] {
-				//
-				HttpRoute.of("localhost", "192.168.56.102", 8848),
-				//
-				HttpRoute.of(true, "192.168.56.110", "127.0.0.1", 8080),
-				//
+				//集群
+				HttpRoute.of(true,"localhost", "192.168.43.122", 5200),
+//				HttpRoute.of("localhost", "192.168.43.103", 5200),
+//				HttpRoute.of("localhost", "192.168.43.107", 5200),
+//				HttpRoute.of("localhost", "192.168.43.102", 5200)
 		};
 
 		for (ListenDest model : CommonConstants.listenDestArray) {
